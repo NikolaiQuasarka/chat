@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import {
+	createBrowserRouter,
+	createHashRouter,
+	RouterProvider,
+} from "react-router-dom"
 import IndexLayout from "./pages/IndexLayout"
 import Index, {
 	loader as IndexLoader,
@@ -6,7 +10,7 @@ import Index, {
 } from "./pages/Index/Index"
 
 export default function App() {
-	const routes = createBrowserRouter([
+	const routes = createHashRouter([
 		{
 			element: <IndexLayout />,
 			path: "/",
