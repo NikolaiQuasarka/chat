@@ -6,7 +6,7 @@ body {
 #root {
 	display: grid;
 	grid-template-columns: 100vw;
-	grid-template-rows: 7vh 1fr 7vh;
+	grid-template-rows: 7vh 1fr auto;
 	min-height: 100vh;
 
 	header {
@@ -26,8 +26,8 @@ body {
 	}
 	footer {
 		display: flex;
-		flex-direction: row;
-		align-items: center;
+		flex-direction: column;
+		align-items: start;
 		padding: 8px;
 	}
 }

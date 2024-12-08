@@ -77,7 +77,9 @@ export default function Index() {
 					<div className="bottom" ref={bottom}></div>
 				</section>
 				<Form method="POST" replace ref={formRef}>
-					<textarea name="content" />
+					<div className="text-border">
+						<textarea name="content" />
+					</div>
 					<input type="submit" value="Отправить" />
 				</Form>
 			</main>

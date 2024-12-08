@@ -38,16 +38,30 @@
 		form {
 			height: auto;
 			border-top: solid 3px black;
-			padding: 2px;
+			padding: 5px;
 			box-sizing: border-box;
 			display: flex;
 			align-items: start;
 			column-gap: 7px;
 
-			textarea {
+			.text-border {
 				flex-grow: 1;
-				resize: none;
-				scroll-behavior: auto;
+				box-sizing: border-box;
+				border: 1px solid black;
+				border-radius: 3px;
+				padding: 3px;
+				textarea {
+					border: none;
+					box-sizing: border-box;
+					width: 100%;
+					resize: none;
+					scroll-behavior: auto;
+					padding: 0;
+					&:focus {
+						border-bottom: 1px solid black;
+						outline: none;
+					}
+				}
 			}
 			input[type="submit"] {
 				border-radius: 3px;
