@@ -8,9 +8,13 @@ import Index, {
 	loader as IndexLoader,
 	action as IndexAction,
 } from "./pages/Index/Index"
+import AccountLayOut from "./pages/Account/AccountLayOut"
+import NotLoggedIn from "./pages/Account/NotLoggedIn"
+import Account, { loader as AccountLoader } from "./pages/Account/Account"
+import LogIn from "./pages/Account/LogIn/LogIn"
 
 export default function App() {
-	const routes = createHashRouter([
+	const routes = createBrowserRouter([
 		{
 			element: <IndexLayout />,
 			path: "/",
@@ -21,8 +25,20 @@ export default function App() {
 					loader: IndexLoader,
 					action: IndexAction,
 				},
-				{ path: "registration" },
-				{ path: "login" },
+				{
+					path: "account",
+					//element: <AccountLayOut />,
+					errorElement: <NotLoggedIn />,
+					children: [
+						{
+							index: true,
+							element: <Account />,
+							loader: AccountLoader,
+						},
+						{ path: "login", element: <LogIn /> },
+						{ path: "signin" },
+					],
+				},
 			],
 		},
 	])
