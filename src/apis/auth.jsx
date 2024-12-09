@@ -10,3 +10,8 @@ export async function isAuthorized() {
 		})
 	})
 }
+
+export async function getAuthorized(email, password) {
+	signInWithEmailAndPassword(auth, email, password)
+	//.then(userCredential=>{
+}
