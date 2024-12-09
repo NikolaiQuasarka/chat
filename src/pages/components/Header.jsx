@@ -5,7 +5,7 @@ export default function Header() {
 		<header>
 			<h1 className="title">chat</h1>
 			<section className="account-management">
-				<Link className="current-account">
+				<Link to="account" className="current-account">
 					Аккаунт
 					<img className="current-account-img" />
 				</Link>
