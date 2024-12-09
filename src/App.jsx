@@ -11,7 +11,7 @@ import Index, {
 import AccountLayOut from "./pages/Account/AccountLayOut"
 import NotLoggedIn from "./pages/Account/NotLoggedIn"
 import Account, { loader as AccountLoader } from "./pages/Account/Account"
-import LogIn from "./pages/Account/LogIn/LogIn"
+import LogIn, { action as LogInAction } from "./pages/Account/LogIn/LogIn"
 
 export default function App() {
 	const routes = createBrowserRouter([
@@ -35,7 +35,11 @@ export default function App() {
 							element: <Account />,
 							loader: AccountLoader,
 						},
-						{ path: "login", element: <LogIn /> },
+						{
+							path: "login",
+							element: <LogIn />,
+							action: LogInAction,
+						},
 						{ path: "signin" },
 					],
 				},
