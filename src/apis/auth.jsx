@@ -6,17 +6,18 @@ import {
 	signOut,
 } from "firebase/auth"
 
-export async function isAuthorized() {
+export async function isAuthorized(request) {
+	const path = new URL(request.url).pathname
 	return new Promise((resolve) => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) resolve(null)
-			else resolve(redirect("/account/login"))
+			else resolve(redirect(`/account/login?path=${path}`))
 		})
 	})
 }
 
 export async function getAuthorized(email, password) {
-	signInWithEmailAndPassword(auth, email, password)
+	return signInWithEmailAndPassword(auth, email, password)
 	//.then(userCredential=>{
 }
 export async function getUnAuthorized() {
