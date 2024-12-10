@@ -18,6 +18,9 @@ body {
 
 		.title {
 			font-style: italic;
+			text-decoration: none; /* Убирает подчеркивание */
+			color: inherit; /* Делает цвет текста таким же, как у родительского элемента */
+			cursor: pointer;
 		}
 		.account-management {
 			display: flex;
