@@ -1,5 +1,5 @@
 import { Outlet } from "react-router"
-import { isAuthorized } from "../../apis/auth"
+import { redirectIfUnAuthorized } from "../../apis/auth"
 
 export default function AccountLayOut() {
 	return (

@@ -1,8 +1,8 @@
 import { useLoaderData } from "react-router"
-import { isAuthorized, getCurrentUser } from "../../apis/auth"
+import { redirectIfUnAuthorized, getCurrentUser } from "../../apis/auth"
 
 export async function loader({ request }) {
-	const authorized = await isAuthorized(request)
+	const authorized = await redirectIfUnAuthorized(request)
 	console.log(authorized)
 	if (authorized !== null) return authorized
 	else {

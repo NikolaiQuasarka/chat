@@ -4,10 +4,10 @@ import { Form, useLoaderData, useNavigation } from "react-router"
 import { useEffect, useRef, useState } from "react"
 import { onChildAdded } from "firebase/database"
 import MessageList from "./components/MessageList"
-import { isAuthorized } from "../../apis/auth"
+import { redirectIfUnAuthorized } from "../../apis/auth"
 
 export async function loader({ request }) {
-	const authorized = await isAuthorized(request)
+	const authorized = await redirectIfUnAuthorized(request)
 	if (authorized !== null) return authorized
 	const data = await getMessages()
 	return data

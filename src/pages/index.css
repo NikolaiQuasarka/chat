@@ -15,7 +15,9 @@ body {
 		align-items: center;
 		justify-content: space-between;
 		padding: 8px;
-
+		.unvisable {
+			display: none;
+		}
 		.title {
 			font-style: italic;
 			text-decoration: none; /* Убирает подчеркивание */

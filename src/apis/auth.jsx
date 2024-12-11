@@ -7,12 +7,17 @@ import {
 	signOut,
 } from "firebase/auth"
 
-export async function isAuthorized(request) {
+export async function redirectIfUnAuthorized(request) {
 	const path = new URL(request.url).pathname
+	const authorized = await isAuthorized()
+	if (authorized) return null
+	else return redirect(`/account/login?path=${path}`)
+}
+export async function isAuthorized() {
 	return new Promise((resolve) => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			if (user) resolve(null)
-			else resolve(redirect(`/account/login?path=${path}`))
+			if (user) resolve(true)
+			else resolve(false)
 			unsubscribe()
 		})
 	})
