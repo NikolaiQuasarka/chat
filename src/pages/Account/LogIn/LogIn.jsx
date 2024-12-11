@@ -1,4 +1,4 @@
-import { Form, redirect, useSearchParams } from "react-router"
+import { Form, redirect, useSearchParams, Link } from "react-router"
 import "./LogIn.css"
 import { getAuthorized } from "../../../apis/auth"
 
@@ -23,6 +23,7 @@ export async function action({ request }) {
 export default function LogIn() {
 	const [searchParams, setSearchParams] = useSearchParams()
 	const errorMessage = searchParams.get("message")
+	const path = searchParams.get("path") || "/"
 	return (
 		<div id="login">
 			<main>
@@ -34,6 +35,9 @@ export default function LogIn() {
 					{errorMessage && <span>{errorMessage}</span>}
 					<input type="submit" value="Войти" />
 				</Form>
+				<Link to={`../signin?path=${path}`}>
+					Нет аккаунта? Создайте его!
+				</Link>
 			</main>
 		</div>
 	)
