@@ -1,14 +1,4 @@
-import {
-	getDatabase,
-	ref,
-	update,
-	get,
-	set,
-	onValue,
-	query,
-	push,
-	serverTimestamp,
-} from "firebase/database"
+import { ref, get, set, push, serverTimestamp } from "firebase/database"
 import { auth, database } from "./firebseConfig"
 
 export const messagesRef = ref(database, `messages/`)

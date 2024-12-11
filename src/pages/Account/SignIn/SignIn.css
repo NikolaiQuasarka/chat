@@ -1,0 +1,12 @@
+#signin {
+	text-align: center;
+
+	main {
+		display: inline-flex;
+		text-align: start;
+		form {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+}

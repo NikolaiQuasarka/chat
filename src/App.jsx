@@ -12,6 +12,7 @@ import AccountLayOut from "./pages/Account/AccountLayOut"
 import NotLoggedIn from "./pages/Account/NotLoggedIn"
 import Account, { loader as AccountLoader } from "./pages/Account/Account"
 import LogIn, { action as LogInAction } from "./pages/Account/LogIn/LogIn"
+import SignIn, { action as SignInAction } from "./pages/Account/SignIn/SignIn"
 
 export default function App() {
 	const routes = createBrowserRouter([
@@ -40,7 +41,11 @@ export default function App() {
 							element: <LogIn />,
 							action: LogInAction,
 						},
-						{ path: "signin" },
+						{
+							path: "signin",
+							element: <SignIn />,
+							action: SignInAction,
+						},
 					],
 				},
 			],

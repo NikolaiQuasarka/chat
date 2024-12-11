@@ -1,6 +1,7 @@
 import { redirect } from "react-router"
 import { auth } from "./firebseConfig"
 import {
+	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	onAuthStateChanged,
 	signOut,
@@ -33,4 +34,8 @@ export async function getCurrentUser() {
 			unsubscribe()
 		})
 	})
+}
+
+export async function createAccount(email, password) {
+	return createUserWithEmailAndPassword(auth, email, password)
 }
