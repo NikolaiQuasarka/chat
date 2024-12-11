@@ -9,9 +9,10 @@ import {
 export async function isAuthorized(request) {
 	const path = new URL(request.url).pathname
 	return new Promise((resolve) => {
-		onAuthStateChanged(auth, (user) => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) resolve(null)
 			else resolve(redirect(`/account/login?path=${path}`))
+			unsubscribe()
 		})
 	})
 }
@@ -26,9 +27,10 @@ export async function getUnAuthorized() {
 
 export async function getCurrentUser() {
 	return new Promise((resolve) => {
-		onAuthStateChanged(auth, (user) => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) resolve(user.email)
 			else resolve(null)
+			unsubscribe()
 		})
 	})
 }
