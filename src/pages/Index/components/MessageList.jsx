@@ -15,7 +15,8 @@ export default function MessageList({ messages }) {
 		})
 	}
 	useEffect(() => {
-		const handleScroll = () => {
+		const handleScroll = (e) => {
+			//e.preventDefault()
 			const element = messagesListElement.current
 			const isAtBottom =
 				element.scrollHeight - element.scrollTop ===
@@ -29,12 +30,11 @@ export default function MessageList({ messages }) {
 		}
 	}, [])
 	useEffect(() => {
-		//const bottomElement = bottom.current
+		const bottomElement = bottom.current
 		const element = messagesListElement.current
 		if (isScrolledToBottom.current) {
-			element.scroll({
+			bottomElement.scrollIntoView({
 				behavior: "smooth",
-				top: element.scrollHeight,
 			})
 		}
 	}, [messages])
