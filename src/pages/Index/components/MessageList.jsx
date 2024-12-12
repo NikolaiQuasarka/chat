@@ -23,7 +23,7 @@ export default function MessageList({ messages }) {
 			isScrolledToBottom.current = isAtBottom
 		}
 		const element = messagesListElement.current
-		element.addEventListener("scroll", handleScroll)
+		//element.addEventListener("scroll", handleScroll)
 		return () => {
 			element.removeEventListener("scroll", handleScroll)
 		}
