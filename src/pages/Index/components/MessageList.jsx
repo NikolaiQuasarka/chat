@@ -1,13 +1,20 @@
-import { useEffect, useRef } from "react"
+import { useContext, useEffect, useRef } from "react"
+import { auth } from "../../../apis/firebseConfig"
 
 export default function MessageList({ messages }) {
+	const userId = auth.currentUser.uid
 	const messagesListElement = useRef(null)
 	const bottom = useRef(null)
 	const isScrolledToBottom = useRef(true)
 	const messagesElements = function () {
 		return messages.map((message) => {
 			return (
-				<article className="message" key={message.key}>
+				<article
+					className={`message ${
+						message.sender_id === userId ? "mine" : false
+					}`}
+					key={message.key}
+				>
 					<div className="sender">{message.key}</div>
 					<div className="text">{message.content}</div>
 				</article>

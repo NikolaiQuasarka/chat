@@ -19,7 +19,7 @@ export async function sendMessage(message) {
 	const newMessageRef = push(messagesRef)
 	set(newMessageRef, {
 		content: message,
-		sender_id: 0,
+		sender_id: auth.currentUser.uid,
 		timestamp: serverTimestamp(),
 	})
 }
