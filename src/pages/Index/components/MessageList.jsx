@@ -29,9 +29,13 @@ export default function MessageList({ messages }) {
 		}
 	}, [])
 	useEffect(() => {
-		const bottomElement = bottom.current
+		//const bottomElement = bottom.current
+		const element = messagesListElement.current
 		if (isScrolledToBottom.current) {
-			bottomElement.scrollIntoView({ behavior: "smooth" })
+			element.scroll({
+				behavior: "smooth",
+				top: element.scrollHeight,
+			})
 		}
 	}, [messages])
 	return (
