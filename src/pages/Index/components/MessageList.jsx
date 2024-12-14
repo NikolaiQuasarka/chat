@@ -15,7 +15,7 @@ export default function MessageList({ messages }) {
 					}`}
 					key={message.key}
 				>
-					<div className="sender">{message.key}</div>
+					<div className="sender">{message.sender_id}</div>
 					<div className="text">{message.content}</div>
 				</article>
 			)

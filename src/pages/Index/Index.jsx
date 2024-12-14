@@ -33,7 +33,6 @@ export default function Index() {
 		})
 		return () => unsubscribe()
 	}, [])
-
 	return (
 		<div id="Index">
 			<main>
