@@ -1,9 +1,10 @@
 import "./Index.css"
 import { getMessages, sendMessage, messagesRef } from "../../apis/messages"
-import { Form, useLoaderData, useNavigation } from "react-router"
-import { useEffect, useRef, useState } from "react"
+import { useLoaderData } from "react-router"
+import { useEffect, useState } from "react"
 import { onChildAdded } from "firebase/database"
 import MessageList from "./components/MessageList"
+import MessageForm from "./components/MessageForm"
 import { redirectIfUnAuthorized } from "../../apis/auth"
 
 export async function loader({ request }) {
@@ -23,8 +24,6 @@ export async function action({ request }) {
 export default function Index() {
 	const loaderData = useLoaderData()
 	const [messages, setMessages] = useState(loaderData)
-	const navigation = useNavigation()
-	const formRef = useRef()
 
 	useEffect(() => {
 		const unsubscribe = onChildAdded(messagesRef, (data) => {
@@ -34,19 +33,12 @@ export default function Index() {
 		})
 		return () => unsubscribe()
 	}, [])
-	useEffect(() => {
-		if (navigation.state === "idle") formRef.current.reset()
-	}, [navigation.state])
+
 	return (
 		<div id="Index">
 			<main>
 				<MessageList messages={messages} />
-				<Form method="POST" replace ref={formRef}>
-					<div className="text-border">
-						<textarea name="content" />
-					</div>
-					<input type="submit" value="Отправить" />
-				</Form>
+				<MessageForm />
 			</main>
 		</div>
 	)
