@@ -6,8 +6,9 @@ export async function action({ request }) {
 	try {
 		const formData = await request.formData()
 		const email = formData.get("email")
+		const name = formData.get("name")
 		const passwod = formData.get("password")
-		await createAccount(email, passwod)
+		await createAccount(email, name, passwod)
 
 		const redirectPath = new URL(request.url).searchParams.get("path")
 		return redirect(redirectPath)
@@ -25,6 +26,8 @@ export default function SignIn() {
 				<Form method="POST">
 					<label htmlFor="">Email:</label>
 					<input type="email" name="email" />
+					<label htmlFor="">Имя:</label>
+					<input type="text" name="name" />
 					<label htmlFor="">Password:</label>
 					<input type="password" name="password" />
 					<input type="submit" value="Зарегистрироваться" />

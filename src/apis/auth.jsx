@@ -1,11 +1,12 @@
 import { redirect } from "react-router"
-import { auth } from "./firebseConfig"
+import { auth, database } from "./firebseConfig"
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	onAuthStateChanged,
 	signOut,
 } from "firebase/auth"
+import { push, ref, set } from "firebase/database"
 
 export async function redirectIfUnAuthorized(request) {
 	const path = new URL(request.url).pathname
@@ -25,7 +26,6 @@ export async function isAuthorized() {
 
 export async function getAuthorized(email, password) {
 	return signInWithEmailAndPassword(auth, email, password)
-	//.then(userCredential=>{
 }
 export async function getUnAuthorized() {
 	signOut(auth)
@@ -41,6 +41,12 @@ export async function getCurrentUser() {
 	})
 }
 
-export async function createAccount(email, password) {
-	return createUserWithEmailAndPassword(auth, email, password)
+async function registName(uid, name) {
+	const usersRef = ref(database, `users/${uid}`)
+	return set(usersRef, name)
+}
+export async function createAccount(email, name, password) {
+	return createUserWithEmailAndPassword(auth, email, password).then(
+		(userCredential) => registName(userCredential.user.uid, name)
+	)
 }
