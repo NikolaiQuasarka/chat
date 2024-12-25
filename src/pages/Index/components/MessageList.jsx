@@ -9,24 +9,42 @@ export default function MessageList({
 }) {
 	const userId = auth.currentUser.uid
 	const messagesListElementRef = useRef(null)
-	const bottom = useRef(null)
-	const isScrolledToBottom = useRef(true)
-	const toppestMessage = useRef()
+	const bottomRef = useRef(null)
+	const toppestMessageRef = useRef()
+	const wasAtBottomRef = useRef(true)
+
 	function isAtTop() {
 		const messagesListElement = messagesListElementRef.current
 		return messagesListElement.scrollTop === 0
+	}
+	function isAtBottom() {
+		const messagesListElement = messagesListElementRef.current
+		return (
+			messagesListElement.scrollHeight - messagesListElement.scrollTop <=
+			messagesListElement.clientHeight + 1
+		)
 	}
 	async function handleScroll(e) {
 		if (isAtTop()) {
 			const messagesListEl = messagesListElementRef.current
 			const height = messagesListEl.scrollHeight
 			const scrollTop = messagesListEl.scrollTop
-			const currentToppestMessage = toppestMessage.current
+			const currentToppestMessage = toppestMessageRef.current
 			await loadPreviousMessages()
 			currentToppestMessage.scrollIntoView()
 			//messagesListEl.scrollTop = messagesListEl.scrollTop - height
 		}
+		wasAtBottomRef.current = isAtBottom()
 	}
+
+	useEffect(() => {
+		if (wasAtBottomRef.current) {
+			const messagesListEl = messagesListElementRef.current
+			messagesListEl.scrollTop = messagesListEl.scrollHeight
+			//bottomRef.current.scrollIntoView()
+		}
+	})
+
 	const messagesElements = function () {
 		return messages.map((message, index) => {
 			const newLocal = message.sender_id === userId ? "mine" : false
@@ -34,7 +52,7 @@ export default function MessageList({
 				<article
 					className={`message ${newLocal}`}
 					key={message.key}
-					ref={index === 0 ? toppestMessage : undefined}
+					ref={index === 0 ? toppestMessageRef : undefined}
 				>
 					<div className="sender">
 						<Suspense fallback={<span>Загрузка идет...</span>}>
@@ -48,30 +66,7 @@ export default function MessageList({
 			)
 		})
 	}
-	useEffect(() => {
-		const handleScroll = (e) => {
-			//e.preventDefault()
-			const element = messagesListElementRef.current
-			const isAtBottom =
-				element.scrollHeight - element.scrollTop ===
-				element.clientHeight
-			isScrolledToBottom.current = isAtBottom
-		}
-		const element = messagesListElementRef.current
-		//element.addEventListener("scroll", handleScroll)
-		return () => {
-			element.removeEventListener("scroll", handleScroll)
-		}
-	}, [])
-	useEffect(() => {
-		const bottomElement = bottom.current
-		const element = messagesListElementRef.current
-		if (isScrolledToBottom.current) {
-			//bottomElement.scrollIntoView({
-			//behavior: "smooth",
-			//})
-		}
-	}, [messages])
+
 	return (
 		<section
 			className="message-list"
@@ -79,7 +74,7 @@ export default function MessageList({
 			onScroll={handleScroll}
 		>
 			{messagesElements()}
-			<div className="bottom" ref={bottom}></div>
+			<div className="bottom" ref={bottomRef}></div>
 		</section>
 	)
 }
