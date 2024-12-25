@@ -1,8 +1,8 @@
 import "./Index.css"
-import { getMessages, sendMessage, messagesRef } from "../../apis/messages"
+import { getLastMessages, sendMessage, messagesRef } from "../../apis/messages"
 import { useLoaderData } from "react-router"
 import { useEffect, useState } from "react"
-import { onChildAdded } from "firebase/database"
+import { onChildAdded, query, startAt, orderByChild } from "firebase/database"
 import MessageList from "./components/MessageList"
 import MessageForm from "./components/MessageForm"
 import { redirectIfUnAuthorized } from "../../apis/auth"
@@ -11,7 +11,7 @@ import { getUserNameByUid } from "../../apis/users"
 export async function loader({ request }) {
 	const authorized = await redirectIfUnAuthorized(request)
 	if (authorized !== null) return authorized
-	const messagesData = await getMessages()
+	const messagesData = await getLastMessages(10)
 
 	const namesArr = messagesData.map((val) => {
 		return val.sender_id
@@ -51,7 +51,13 @@ export default function Index() {
 	}
 
 	useEffect(() => {
-		const unsubscribe = onChildAdded(messagesRef, (data) => {
+		const lastTimestamp = messages[messages.length - 1]?.timestamp || 0
+		const newMessagesQuery = query(
+			messagesRef,
+			orderByChild("timestamp"),
+			startAt(lastTimestamp + 1)
+		)
+		const unsubscribe = onChildAdded(newMessagesQuery, (data) => {
 			setMessages((prev) => {
 				return [...prev, { ...data.val(), key: data.key }]
 			})

@@ -2,7 +2,7 @@ import { Form, useNavigation } from "react-router"
 import { useEffect, useRef, useState } from "react"
 export default function MessageForm() {
 	const navigation = useNavigation()
-	const formRef = useRef()
+	const submitBtnRef = useRef()
 	const textareaRef = useRef()
 	const [formText, setFormText] = useState("")
 
@@ -13,11 +13,11 @@ export default function MessageForm() {
 	function sendMessage(e) {
 		if (e.keyCode === 13) {
 			e.preventDefault()
-			formRef.current.requestSubmit()
+			submitBtnRef.current.click()
 		}
 	}
 	return (
-		<Form method="POST" replace ref={formRef}>
+		<Form method="POST" replace>
 			<div className="text-border">
 				<textarea
 					ref={textareaRef}
@@ -28,6 +28,7 @@ export default function MessageForm() {
 				/>
 			</div>
 			<input
+				ref={submitBtnRef}
 				type="submit"
 				value="Отправить"
 				onClick={() => textareaRef.current.focus()}
