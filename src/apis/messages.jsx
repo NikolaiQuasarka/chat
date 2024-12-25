@@ -24,9 +24,7 @@ export async function getLastMessages(messagesCount) {
 	const snapshot = await get(lastMessages)
 	if (snapshot.exists()) {
 		const snapshotVal = snapshot.val()
-		console.log(snapshotVal)
 		Object.entries(snapshotVal).forEach(([key, value]) => {
-			console.log("Key", key, "Value", value)
 			data.push({ ...value, key: key })
 		})
 		return data

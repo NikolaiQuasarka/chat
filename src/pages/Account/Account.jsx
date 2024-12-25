@@ -3,7 +3,6 @@ import { redirectIfUnAuthorized, getCurrentUser } from "../../apis/auth"
 
 export async function loader({ request }) {
 	const authorized = await redirectIfUnAuthorized(request)
-	console.log(authorized)
 	if (authorized !== null) return authorized
 	else {
 		const currentUser = await getCurrentUser()
@@ -12,6 +11,5 @@ export async function loader({ request }) {
 }
 export default function Account() {
 	const loaderData = useLoaderData()
-	console.log(loaderData)
 	return <h1>Current user is {loaderData.currentUser}</h1>
 }
