@@ -17,10 +17,10 @@
 		min-height: 250px;
 
 		.message-list {
+			overflow-y: scroll;
 			display: flex;
 			justify-content: start;
 			flex-direction: column;
-			overflow-y: auto;
 			row-gap: 10px;
 			align-items: start;
 			padding: 5px 25px;

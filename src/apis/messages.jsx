@@ -8,6 +8,7 @@ import {
 	limitToLast,
 	orderByChild,
 	startAt,
+	endAt,
 } from "firebase/database"
 import { auth, database } from "./firebseConfig"
 
@@ -21,13 +22,15 @@ export async function getLastMessages(messagesCount) {
 		limitToLast(messagesCount)
 	)
 	const snapshot = await get(lastMessages)
-	const snapshotVal = snapshot.val()
-	console.log(snapshotVal)
-	Object.entries(snapshotVal).forEach(([key, value]) => {
-		console.log("Key", key, "Value", value)
-		data.push({ ...value, key: key })
-	})
-	return data
+	if (snapshot.exists()) {
+		const snapshotVal = snapshot.val()
+		console.log(snapshotVal)
+		Object.entries(snapshotVal).forEach(([key, value]) => {
+			console.log("Key", key, "Value", value)
+			data.push({ ...value, key: key })
+		})
+		return data
+	} else return []
 }
 
 export async function getMessages(timestamp, messagesCount) {
@@ -35,9 +38,14 @@ export async function getMessages(timestamp, messagesCount) {
 	const messagesQuery = query(
 		messagesRef,
 		orderByChild("timestamp"),
-		limitToLast(messagesCount),
-		startAt(timestamp)
+		endAt(timestamp - 1),
+		limitToLast(messagesCount)
 	)
+	const snapshot = await get(messagesQuery)
+	snapshot.forEach((childSnapshot) => {
+		data.push({ ...childSnapshot.val(), key: childSnapshot.key })
+	})
+	return data
 }
 
 export async function sendMessage(message) {
