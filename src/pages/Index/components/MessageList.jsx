@@ -1,6 +1,6 @@
-import { useEffect, useRef, Suspense } from "react"
+import { useEffect, useRef } from "react"
 import { auth } from "../../../apis/firebseConfig"
-import { Await } from "react-router"
+import Message from "./Message"
 
 export default function MessageList({
 	messages,
@@ -46,21 +46,15 @@ export default function MessageList({
 			const date = new Date(message.timestamp)
 			const formattedDate = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 			return (
-				<article
-					className={`message ${newLocal}`}
+				<Message
 					key={message.key}
-					ref={index === 0 ? toppestMessageRef : undefined}
-				>
-					<div className="sender">
-						<Suspense fallback={<span>Загрузка идет...</span>}>
-							<Await resolve={getUserName(message.sender_id)}>
-								{(userName) => <>{userName}</>}
-							</Await>
-						</Suspense>
-					</div>
-					<div className="text">{message.content}</div>
-					<div className="time">{formattedDate}</div>
-				</article>
+					newLocal={newLocal}
+					index={index}
+					formattedDate={formattedDate}
+					message={message}
+					toppestMessageRef={toppestMessageRef}
+					getUserName={getUserName}
+				/>
 			)
 		})
 	}
