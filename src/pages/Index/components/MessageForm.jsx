@@ -1,5 +1,6 @@
 import { Form, useNavigation } from "react-router"
 import { useEffect, useRef, useState } from "react"
+
 export default function MessageForm() {
 	const navigation = useNavigation()
 	const submitBtnRef = useRef()
@@ -16,6 +17,15 @@ export default function MessageForm() {
 			submitBtnRef.current.click()
 		}
 	}
+	function calculateRowsCount() {
+		const textarea = textareaRef.current
+		if (textarea) {
+			const lineHeight = 5
+			const lines = Math.floor(textarea.height / lineHeight)
+			return lines
+		}
+		return 1
+	}
 	return (
 		<Form method="POST" replace>
 			<div className="text-border">
@@ -25,6 +35,7 @@ export default function MessageForm() {
 					onKeyDown={sendMessage}
 					value={formText}
 					onInput={(e) => setFormText(e.target.value)}
+					rows={2}
 				/>
 			</div>
 			<input
@@ -32,7 +43,9 @@ export default function MessageForm() {
 				type="submit"
 				value="Отправить"
 				onClick={() => textareaRef.current.focus()}
-				disabled={formText ? false : true}
+				disabled={
+					formText || !navigation.state === "idle" ? false : true
+				}
 			/>
 		</Form>
 	)
