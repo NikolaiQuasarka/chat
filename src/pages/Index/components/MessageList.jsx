@@ -26,13 +26,9 @@ export default function MessageList({
 	}
 	async function handleScroll(e) {
 		if (isAtTop()) {
-			const messagesListEl = messagesListElementRef.current
-			const height = messagesListEl.scrollHeight
-			const scrollTop = messagesListEl.scrollTop
 			const currentToppestMessage = toppestMessageRef.current
 			await loadPreviousMessages()
 			currentToppestMessage.scrollIntoView()
-			//messagesListEl.scrollTop = messagesListEl.scrollTop - height
 		}
 		wasAtBottomRef.current = isAtBottom()
 	}
@@ -41,13 +37,14 @@ export default function MessageList({
 		if (wasAtBottomRef.current) {
 			const messagesListEl = messagesListElementRef.current
 			messagesListEl.scrollTop = messagesListEl.scrollHeight
-			//bottomRef.current.scrollIntoView()
 		}
 	})
 
 	const messagesElements = function () {
 		return messages.map((message, index) => {
 			const newLocal = message.sender_id === userId ? "mine" : false
+			const date = new Date(message.timestamp)
+			const formattedDate = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 			return (
 				<article
 					className={`message ${newLocal}`}
@@ -62,6 +59,7 @@ export default function MessageList({
 						</Suspense>
 					</div>
 					<div className="text">{message.content}</div>
+					<div className="time">{formattedDate}</div>
 				</article>
 			)
 		})
